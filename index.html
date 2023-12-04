@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Proxy</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        .result-container {
+            margin-top: 10px;
+            max-width: 100%;
+            overflow: auto;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Web Proxy</h1>
+    <div class="input-container">
+        <input type="text" id="url" name="url" placeholder="Enter a URL" required>
+    </div>
+    <button onclick="fetchPage()">Fetch Page</button>
+    <div class="result-container" id="result"></div>
+
+    <script>
+        function fetchPage() {
+            const url = document.getElementById('url').value;
+            if (!url) {
+                alert('Please enter a URL.');
+                return;
+            }
+
+            fetch('/proxy?url=' + encodeURIComponent(url))
+                .then(response => response.text())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    resultDiv.innerHTML = data;
+                })
+                .catch(error => {
+                    alert('Error fetching page: ' + error);
+                });
+        }
+    </script>
+</body>
+</html>
